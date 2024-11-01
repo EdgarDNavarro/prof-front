@@ -1,6 +1,7 @@
 import { ButtonHTMLAttributes, ReactNode } from "react";
 import { ColorsUI } from "./types";
 import { LinkProps } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 type ButtonProps = {
     children: ReactNode
@@ -52,7 +53,7 @@ const Button = ({children, color, variant, className, Component, to, ...props} :
     }
     if(Component && to) return (
         <Component 
-            className={`${buttonClass()} rounded-md px-4 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 ${className}`}
+            className={cn(`${buttonClass()} rounded-md px-4 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2`, className)}
             to={to}
         >
             {children}
@@ -60,7 +61,7 @@ const Button = ({children, color, variant, className, Component, to, ...props} :
     )
     return (
         <button 
-            className={`${buttonClass()} rounded-md px-4 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 ${className}`}
+            className={cn(`${buttonClass()} rounded-md px-4 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2`, className)}
             {...props}
         >
             {children}

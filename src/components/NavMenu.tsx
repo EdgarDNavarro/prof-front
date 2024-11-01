@@ -9,10 +9,14 @@ import { DollarSign, Menu } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Fragment } from 'react/jsx-runtime'
 
-export const NavMenu = () => {
-    const isLoggedIn = true
-    const userName = "Juan Pérez"
-    const userBalance = 1250.75
+type NavMenuProps = {
+    userName: string
+    userBalance: number
+    isLoggedIn: boolean
+    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export const NavMenu = ({userName, isLoggedIn, userBalance, setIsLoggedIn}:NavMenuProps) => {
     return (
         <Popover className='relative visible sm:hidden'>
             <PopoverButton className='inline-flex items-center gap-x-1 text-sm font-semibold leading-6 p-1 mt-6'>
@@ -46,12 +50,12 @@ export const NavMenu = () => {
                         
 
                         {isLoggedIn && (
-                                <div className="px-4 pt-2 pb-4 border-b w-full">
-                                    <p className="text-center font-medium leading-none">{userName}</p>
-                                    <p className="text-xs leading-none text-center text-gray-500">
-                                        juan.perez@example.com
-                                    </p>
-                                </div>
+                            <div className="px-4 pt-2 pb-4 border-b w-full">
+                                <p className="text-center font-medium leading-none">{userName}</p>
+                                <p className="text-xs leading-none text-center text-gray-500">
+                                    juan.perez@example.com
+                                </p>
+                            </div>
                         )}
 
                         {isLoggedIn && (
@@ -67,17 +71,19 @@ export const NavMenu = () => {
                                     <a href="#" className="block text-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Perfil</a>
                                     <a href="#" className="block text-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Mis cursos</a>
                                     <a href="#" className="block text-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Configuración</a>
-                                    <a href="#" className="block text-center px-4 pb-2 pt-3 border-t text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Cerrar sesión</a>
+                                    <button onClick={() => setIsLoggedIn(false)} className="block w-full px-4 pb-2 pt-3 border-t text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Cerrar sesión</button>
                                 </div>
                             ) : (
-                                <Button
-                                    color="primary"
-                                    variant="tonal"
-                                    Component={Link}
-                                    to="/login"
-                                >
-                                    Iniciar sesión
-                                </Button>
+                                <div className="px-4 py-4 flex justify-center w-full">
+                                    <Button
+                                        color="primary"
+                                        variant="tonal"
+                                        Component={Link}
+                                        to="/login"
+                                    >
+                                        Iniciar sesión
+                                    </Button>
+                                </div>
                             )}
                         </div>
                     </nav>

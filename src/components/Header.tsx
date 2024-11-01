@@ -7,10 +7,10 @@ import { NavMenu } from "./NavMenu"
 
 const Header = () => {
     // Simulamos un estado de usuario logueado y su saldo
-    const isLoggedIn = true
     const userName = "Juan Pérez"
     const userBalance = 1250.75
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const [isLoggedIn, setIsLoggedIn] = useState(true)
 
     return (
         <header className="px-4 lg:px-6 pt-7 flex items-center flex-col sm:flex-row justify-between">
@@ -19,7 +19,12 @@ const Header = () => {
                 <span className="ml-2 text-2xl font-bold">LinguaLearn</span>
             </a>
 
-            <NavMenu/>
+            <NavMenu
+                userName={userName}
+                userBalance={userBalance}
+                isLoggedIn={isLoggedIn}
+                setIsLoggedIn={setIsLoggedIn}
+            />
             
             <nav className="w-full sm:w-auto gap-4 sm:gap-6 items-center flex-col sm:flex-row mt-8 sm:mt-0 hidden sm:flex">
             
@@ -63,7 +68,7 @@ const Header = () => {
                                     <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Perfil</a>
                                     <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Mis cursos</a>
                                     <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Configuración</a>
-                                    <a href="#" className="block px-4 pb-2 pt-3 border-t text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Cerrar sesión</a>
+                                    <button onClick={() => setIsLoggedIn(false)}  className="block w-full text-left px-4 pb-2 pt-3 border-t text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Cerrar sesión</button>
                                 </div>
                             </div>
                         )}
