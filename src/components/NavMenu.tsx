@@ -1,4 +1,4 @@
-import { Avatar, Button } from '@/core'
+import { Button } from '@/core'
 import {
     Popover,
     PopoverButton,
@@ -6,7 +6,6 @@ import {
     Transition
 } from '@headlessui/react'
 import { DollarSign, Menu } from 'lucide-react'
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Fragment } from 'react/jsx-runtime'
 
@@ -14,9 +13,6 @@ export const NavMenu = () => {
     const isLoggedIn = true
     const userName = "Juan Pérez"
     const userBalance = 1250.75
-    const [isMenuOpen, setIsMenuOpen] = useState(false)
-
-
     return (
         <Popover className='relative visible sm:hidden'>
             <PopoverButton className='inline-flex items-center gap-x-1 text-sm font-semibold leading-6 p-1 mt-6'>
