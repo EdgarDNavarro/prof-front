@@ -1,4 +1,3 @@
-import BentoGridSection from "@/components/HomePage/BentoGridSection";
 import BentoMagicUI from "@/components/HomePage/BentoMagicUI";
 import FeaturedComments from "@/components/HomePage/FeaturedComments";
 import HomePageHero from "@/components/HomePage/HomePageHero";
