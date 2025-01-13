@@ -1,42 +1,53 @@
 /** @type {import('tailwindcss').Config} */
 export default {
     darkMode: ["class"],
-    content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}"
-  ],
-  theme: {
-  	extend: {
-  		borderRadius: {
-  			lg: 'var(--radius)',
-  			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)'
-  		},
-  		colors: {},
-  		keyframes: {
-  			marquee: {
-  				from: {
-  					transform: 'translateX(0)'
-  				},
-  				to: {
-  					transform: 'translateX(calc(-100% - var(--gap)))'
-  				}
-  			},
-  			'marquee-vertical': {
-  				from: {
-  					transform: 'translateY(0)'
-  				},
-  				to: {
-  					transform: 'translateY(calc(-100% - var(--gap)))'
-  				}
-  			}
-  		},
-  		animation: {
-  			marquee: 'marquee var(--duration) infinite linear',
-  			'marquee-vertical': 'marquee-vertical var(--duration) linear infinite'
-  		}
-  	}
-  },
-  plugins: [require("tailwindcss-animate")],
-}
-
+    content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+    theme: {
+        extend: {
+            borderRadius: {
+                lg: "var(--radius)",
+                md: "calc(var(--radius) - 2px)",
+                sm: "calc(var(--radius) - 4px)"
+            },
+            colors: {},
+            keyframes: {
+                marquee: {
+                    from: {
+                        transform: "translateX(0)"
+                    },
+                    to: {
+                        transform: "translateX(calc(-100% - var(--gap)))"
+                    }
+                },
+                "marquee-vertical": {
+                    from: {
+                        transform: "translateY(0)"
+                    },
+                    to: {
+                        transform: "translateY(calc(-100% - var(--gap)))"
+                    }
+                }
+            },
+            animation: {
+                marquee: "marquee var(--duration) infinite linear",
+                "marquee-vertical":
+                    "marquee-vertical var(--duration) linear infinite"
+            }
+        }
+    },
+    plugins: [
+        require("tailwindcss-animate"),
+        function ({ addUtilities }) {
+            addUtilities({
+                ".scrollbar-hide": {
+                    /* Ocultar scroll en navegadores modernos */
+                    "scrollbar-width": "none" /* Firefox */,
+                    "-ms-overflow-style": "none" /* IE y Edge */
+                },
+                ".scrollbar-hide::-webkit-scrollbar": {
+                    display: "none" /* Chrome, Safari y Opera */
+                }
+            });
+        }
+    ]
+};

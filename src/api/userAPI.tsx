@@ -9,12 +9,14 @@ import {
     userSchema
 } from "@/types";
 import { isAxiosError } from "axios";
+import { NavigateFunction } from "react-router-dom";
 
-export const getUser = async () => {
+export const getUser = async (navigate: NavigateFunction) => {
     try {
         const url = "/users";
         const { data } = await api(url);
         console.log(data);
+
         if (data.success) {
             const response = userSchema.safeParse(data.data);
 
@@ -22,11 +24,24 @@ export const getUser = async () => {
                 console.log(response.data);
                 return response.data;
             }
-
-            throw new Error("Something went wrong");
         }
 
-        throw new Error("Something went wrong");
+        if (data.error) {
+            const response = userSchema.safeParse(data.data);
+
+            if (response.success) {
+                console.log(response.data);
+
+                if (
+                    window.location.pathname !== "/create-account" &&
+                    window.location.pathname !== "/create-account/"
+                ) {
+                    navigate("/create-account");
+                }
+
+                return response.data;
+            }
+        }
     } catch (error) {
         if (isAxiosError(error) && error.response) {
             throw new Error(error.response.data.error);
