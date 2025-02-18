@@ -15,13 +15,11 @@ export const getUser = async (navigate: NavigateFunction) => {
     try {
         const url = "/users";
         const { data } = await api(url);
-        console.log(data);
 
         if (data.success) {
             const response = userSchema.safeParse(data.data);
 
             if (response.success) {
-                console.log(response.data);
                 return response.data;
             }
         }
@@ -30,10 +28,12 @@ export const getUser = async (navigate: NavigateFunction) => {
             const response = userSchema.safeParse(data.data);
 
             if (response.success) {
-                console.log(response.data);
-
                 if (
                     window.location.pathname !== "/create-account" &&
+                    window.location.pathname !== "/account/student" &&
+                    window.location.pathname !== "/account/student/" &&
+                    window.location.pathname !== "/account/teacher" &&
+                    window.location.pathname !== "/account/teacher/" &&
                     window.location.pathname !== "/create-account/"
                 ) {
                     navigate("/create-account");

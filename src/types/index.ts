@@ -27,12 +27,52 @@ export const CurrencyEnum = Object.fromEntries(
     currencySchema.options.map((currency) => [currency, currency])
 ) as Record<Currency, Currency>;
 
+export const studentSchema = z.object({
+    id: uuidSchema,
+    first_name: z.string(),
+    last_name: z.string(),
+    timezone: z.string(),
+    phone_number: z.string().nullable().optional(),
+    user_id: uuidSchema,
+})
+
+export type Student = z.infer<typeof studentSchema>
+export type StudentForm = Pick<Student, 'first_name' | 'last_name' | 'phone_number' | 'timezone'>
+
+export const tutorSchema = z.object({
+    id: uuidSchema,
+    first_name: z.string(),
+    last_name: z.string(),
+    phone_number: z.string().nullable().optional(),
+    timezone: z.string(),
+    photo: z.string().nullable().optional(),
+    bio: z.string().nullable().optional(),
+    rating: z.number(),
+    country_of_birth: z.string(),
+    video_link: z.string().nullable().optional(),
+    video_thumbnail: z.string().nullable().optional(),
+    years_of_experience: z.number(),
+    class_price: z.number(),
+    balance: z.number(),
+    profile_verified: z.boolean(),
+    profile_hidden: z.boolean(),
+    total_hours: z.number(),
+    total_lessons: z.number(),
+    super_tutor_badge: z.boolean(),
+    user_id: uuidSchema,
+})
+
+export type Tutor = z.infer<typeof tutorSchema>
+export type TutorForm = Pick<Tutor, 'first_name' | 'last_name' | 'timezone' | 'phone_number' | 'bio' | 'country_of_birth' | 'years_of_experience' | 'class_price'>
+
 export const userSchema = z.object({
     id: uuidSchema,
     email: z.string().email(),
     language: languageSchema,
     currency: currencySchema,
-    confirmed: z.boolean()
+    confirmed: z.boolean(),
+    Student: studentSchema.optional().nullable(),
+    Tutor: tutorSchema.optional().nullable()
 })
 
 export type User = z.infer<typeof userSchema>

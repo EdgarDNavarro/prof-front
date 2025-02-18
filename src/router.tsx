@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import ConfirmAccount from "./views/ConfirmAccount";
 import CreateAccount from "./views/CreateAccount";
 import Student from "./views/account/Student";
+import Tutor from "./views/account/Tutor";
 
 const Router = () => {
     return (
@@ -18,6 +19,7 @@ const Router = () => {
                 <Route path="/login" element={<LoginView />} />
                 <Route path="/register" element={<RegisterView />} />
                 <Route path="/account/student" element={<Student />} />
+                <Route path="/account/teacher" element={<Tutor />} />
                 <Route path="/create-account" element={<CreateAccount />} />
                 <Route
                     path="/confirm-account/:email"

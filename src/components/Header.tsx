@@ -8,12 +8,10 @@ import { useAuth } from "@/hooks/useAuth";
 
 const Header = () => {
     const { data } = useAuth();
+
     const navigate = useNavigate();
-    // Simulamos un estado de usuario logueado y su saldo
-    const userName = "Juan Pérez";
     const userBalance = 1250.75;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
 
     const logOut = () => {
         localStorage.removeItem("PROF_AUTH_TOKEN");
@@ -31,12 +29,7 @@ const Header = () => {
                 <span className="ml-2 text-2xl font-bold">LinguaLearn</span>
             </a>
 
-            <NavMenu
-                userName={userName}
-                userBalance={userBalance}
-                isLoggedIn={isLoggedIn}
-                setIsLoggedIn={setIsLoggedIn}
-            />
+            <NavMenu userBalance={userBalance} data={data} logOut={logOut} />
 
             <nav className="w-full sm:w-auto gap-4 sm:gap-6 items-center flex-col sm:flex-row mt-8 sm:mt-0 hidden sm:flex">
                 <a
@@ -86,7 +79,11 @@ const Header = () => {
                                 Abrir menú de usuario
                             </span>
                             <Avatar
-                                name={userName}
+                                name={
+                                    data.Student
+                                        ? `${data.Student.first_name} ${data.Student.last_name} `
+                                        : ""
+                                }
                                 className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                             />
                         </button>
@@ -100,10 +97,12 @@ const Header = () => {
                                 >
                                     <div className="px-4 pt-2 pb-4 border-b">
                                         <p className=" font-medium leading-none">
-                                            {userName}
+                                            {data.Student
+                                                ? `${data.Student.first_name} ${data.Student.last_name} `
+                                                : ""}
                                         </p>
                                         <p className="text-xs leading-none text-gray-500">
-                                            juan.perez@example.com
+                                            {data.email}
                                         </p>
                                     </div>
                                     <a

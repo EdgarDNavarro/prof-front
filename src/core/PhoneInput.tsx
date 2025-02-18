@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { StudentForm } from "@/types";
 import ReactCountryFlag from "react-country-flag";
+import { FieldValues, UseFormRegister } from "react-hook-form";
 
 const countryCodes = [
-    { code: "+1", country: "US" }, // United States
+    { code: "+1", country: "US" }, // USA
     { code: "+44", country: "GB" }, // United Kingdom
     { code: "+34", country: "ES" }, // Spain
     { code: "+33", country: "FR" }, // France
@@ -30,14 +31,12 @@ const countryCodes = [
     { code: "+94", country: "LK" }, // Sri Lanka
     { code: "+92", country: "PK" }, // Pakistan
     { code: "+64", country: "NZ" }, // New Zealand
-    { code: "+1", country: "CA" }, // Canada
     { code: "+48", country: "PL" }, // Poland
     { code: "+420", country: "CZ" }, // Czech Republic
     { code: "+351", country: "PT" }, // Portugal
     { code: "+65", country: "SG" }, // Singapore
     { code: "+60", country: "MY" }, // Malaysia
     { code: "+856", country: "LA" }, // Laos
-    { code: "+94", country: "LK" }, // Sri Lanka
     { code: "+855", country: "KH" }, // Cambodia
     { code: "+375", country: "BY" }, // Belarus
     { code: "+32", country: "BE" }, // Belgium
@@ -45,14 +44,12 @@ const countryCodes = [
     { code: "+30", country: "GR" }, // Greece
     { code: "+353", country: "IE" }, // Ireland
     { code: "+972", country: "IL" }, // Israel
-    { code: "+34", country: "ES" }, // Spain
     { code: "+20", country: "EG" }, // Egypt
     { code: "+356", country: "MT" }, // Malta
     { code: "+380", country: "UA" }, // Ukraine
     { code: "+213", country: "DZ" }, // Algeria
     { code: "+216", country: "TN" }, // Tunisia
     { code: "+256", country: "UG" }, // Uganda
-    { code: "+94", country: "LK" }, // Sri Lanka
     { code: "+54", country: "AR" }, // Argentina
     { code: "+57", country: "CO" }, // Colombia
     { code: "+56", country: "CL" }, // Chile
@@ -61,13 +58,28 @@ const countryCodes = [
     { code: "+593", country: "EC" }, // Ecuador
     { code: "+505", country: "NI" }, // Nicaragua
     { code: "+506", country: "CR" }, // Costa Rica
-    { code: "+592", country: "GY" }, // Guyana
-    { code: "+94", country: "LK" } // Sri Lanka
+    { code: "+592", country: "GY" } // Guyana
 ];
 
-export const PhoneInput = () => {
-    const [selectedCountry, setSelectedCountry] = useState(countryCodes[0]);
+type PhoneInputProps<T extends FieldValues> = {
+    register: UseFormRegister<T>;
+    selectedCountry: {
+        code: string;
+        country: string;
+    };
+    setSelectedCountry: React.Dispatch<
+        React.SetStateAction<{
+            code: string;
+            country: string;
+        }>
+    >;
+};
 
+export const PhoneInput = <T extends FieldValues>({
+    register,
+    selectedCountry,
+    setSelectedCountry
+}: PhoneInputProps<T>) => {
     const inputStyles =
         "appearance-none block w-full px-3 py-2 border border-gray-300 shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm";
 
@@ -77,8 +89,9 @@ export const PhoneInput = () => {
                 htmlFor="phone"
                 className="block text-sm font-medium text-gray-700"
             >
-                Número de teléfono
+                Número de teléfono (Opcional)
             </label>
+
             <div className="flex mt-1">
                 <div className="relative w-1/4 ">
                     <button
@@ -138,6 +151,15 @@ export const PhoneInput = () => {
                     type="number"
                     className={`${inputStyles} w-3/4 rounded-r-lg`}
                     placeholder="Phone number"
+                    {...register("phone_number" as any, {
+                        validate: (value) => {
+                            // Valida que solo sean números enteros
+                            return (
+                                /^[0-9]*$/.test(value ? value : "") ||
+                                "Solo se permiten números enteros"
+                            );
+                        }
+                    })}
                 />
             </div>
         </>

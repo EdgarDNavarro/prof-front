@@ -1,5 +1,6 @@
 import { Button } from "@/core";
 import LanguageSelector from "@/core/LanguageSelector";
+import { User } from "@/types";
 import {
     Popover,
     PopoverButton,
@@ -11,18 +12,12 @@ import { Link } from "react-router-dom";
 import { Fragment } from "react/jsx-runtime";
 
 type NavMenuProps = {
-    userName: string;
+    data: User | undefined;
+    logOut: () => void;
     userBalance: number;
-    isLoggedIn: boolean;
-    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const NavMenu = ({
-    userName,
-    isLoggedIn,
-    userBalance,
-    setIsLoggedIn
-}: NavMenuProps) => {
+export const NavMenu = ({ data, logOut, userBalance }: NavMenuProps) => {
     return (
         <Popover className="relative visible sm:hidden">
             <PopoverButton className="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 p-1 mt-6">
@@ -67,18 +62,20 @@ export const NavMenu = ({
 
                         <LanguageSelector />
 
-                        {isLoggedIn && (
+                        {data && (
                             <div className="px-4 pt-2 pb-4 border-b w-full">
                                 <p className="text-center font-medium leading-none">
-                                    {userName}
+                                    {data.Student
+                                        ? `${data.Student.first_name} ${data.Student.last_name} `
+                                        : ""}
                                 </p>
                                 <p className="text-xs leading-none text-center text-gray-500">
-                                    juan.perez@example.com
+                                    {data.email}
                                 </p>
                             </div>
                         )}
 
-                        {isLoggedIn && (
+                        {data && (
                             <div className="flex items-center bg-green-100 rounded-full px-3 py-1 mt-4">
                                 <DollarSign className="h-4 w-4 text-green-600 mr-1" />
                                 <span className="font-medium text-green-800">
@@ -88,7 +85,7 @@ export const NavMenu = ({
                         )}
 
                         <div className="w-full">
-                            {isLoggedIn ? (
+                            {data ? (
                                 <div className="py-1">
                                     <a
                                         href="#"
@@ -112,7 +109,7 @@ export const NavMenu = ({
                                         Configuración
                                     </a>
                                     <button
-                                        onClick={() => setIsLoggedIn(false)}
+                                        onClick={logOut}
                                         className="block w-full px-4 pb-2 pt-3 border-t text-sm text-gray-700 hover:bg-gray-100"
                                         role="menuitem"
                                     >

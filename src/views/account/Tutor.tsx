@@ -1,14 +1,14 @@
-import { createStudent } from "@/api/studentAPI";
+// import { createStudent } from "@/api/studentAPI";
 import InputErrorMessage from "@/core/InputErrorMessage";
 import { PhoneInput } from "@/core/PhoneInput";
-import { useAuth } from "@/hooks/useAuth";
-import { StudentForm } from "@/types";
-import { useMutation } from "@tanstack/react-query";
+// import { useAuth } from "@/hooks/useAuth";
+import { TutorForm } from "@/types";
+// import { useMutation } from "@tanstack/react-query";
 import { Globe2 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
+// import { toast } from "react-toastify";
 
 const timezones = [
     { value: "Pacific/Midway", label: "(UTC-11:00) Midway Island" },
@@ -47,53 +47,58 @@ const timezones = [
     { value: "Pacific/Auckland", label: "(UTC+12:00) Auckland" }
 ];
 
-const initialValues: StudentForm = {
+const initialValues: TutorForm = {
     first_name: "",
     last_name: "",
     timezone: "Europe/London",
-    phone_number: ""
+    phone_number: "",
+    country_of_birth: "",
+    bio: "",
+    years_of_experience: 0,
+    class_price: 0
 };
 
-const Student = () => {
-    const navigate = useNavigate();
-    const auth = useAuth();
+const Tutor = () => {
+    // const navigate = useNavigate();
+    // const auth = useAuth();
     const [selectedCountry, setSelectedCountry] = useState({
         code: "+1",
         country: "US"
     });
+
     const {
         register,
-        handleSubmit,
+        // handleSubmit,
         formState: { errors }
     } = useForm({ defaultValues: initialValues });
 
-    const { mutate } = useMutation({
-        mutationFn: createStudent,
-        onSuccess(data) {
-            toast.success(data);
-            navigate(`/`);
-        },
-        onError(error) {
-            toast.error(error.message);
-        },
-        retry: false
-    });
+    // const { mutate } = useMutation({
+    //     mutationFn: createStudent,
+    //     onSuccess(data) {
+    //         toast.success(data);
+    //         navigate(`/`);
+    //     },
+    //     onError(error) {
+    //         toast.error(error.message);
+    //     },
+    //     retry: false
+    // });
 
-    const handleForm = (formData: StudentForm) => {
-        console.log(auth);
-        if (auth.data?.id) {
-            if (formData.phone_number) {
-                const data = {
-                    ...formData,
-                    phone_number: `${selectedCountry.code} ${formData.phone_number}`
-                };
-                mutate({ formData: data, user_id: auth.data?.id });
+    // const handleForm = (formData: StudentForm) => {
+    //     console.log(auth);
+    //     if (auth.data?.id) {
+    //         if (formData.phone_number) {
+    //             const data = {
+    //                 ...formData,
+    //                 phone_number: `${selectedCountry.code} ${formData.phone_number}`
+    //             };
+    //             mutate({ formData: data, user_id: auth.data?.id });
 
-                return;
-            }
-            mutate({ formData, user_id: auth.data?.id });
-        }
-    };
+    //             return;
+    //         }
+    //         mutate({ formData, user_id: auth.data?.id });
+    //     }
+    // };
 
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -105,7 +110,7 @@ const Student = () => {
                     </span>
                 </Link>
                 <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                    Llena tu informacion como estudiante
+                    Llena tu informacion como profesor
                 </h2>
                 <p className="mt-2 text-center text-sm text-gray-600">
                     ¿Tienes dudas?{" "}
@@ -123,7 +128,7 @@ const Student = () => {
                     <form
                         className="space-y-6"
                         noValidate
-                        onSubmit={handleSubmit(handleForm)}
+                        // onSubmit={handleSubmit(handleForm)}
                     >
                         <div>
                             <label
@@ -172,7 +177,7 @@ const Student = () => {
                         </div>
 
                         <div>
-                            <PhoneInput<StudentForm>
+                            <PhoneInput<TutorForm>
                                 register={register}
                                 selectedCountry={selectedCountry}
                                 setSelectedCountry={setSelectedCountry}
@@ -211,6 +216,102 @@ const Student = () => {
                         </div>
 
                         <div>
+                            <label
+                                htmlFor="country_of_birth"
+                                className="block text-sm font-medium text-gray-700"
+                            >
+                                Pais
+                            </label>
+                            <div className="mt-1">
+                                <input
+                                    id="country_of_birth"
+                                    type="text"
+                                    autoComplete="country_of_birth"
+                                    {...register("country_of_birth", {
+                                        required: "El Pais es obligatorio"
+                                    })}
+                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                />
+                                <InputErrorMessage
+                                    message={errors.country_of_birth?.message}
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label
+                                htmlFor="bio"
+                                className="block text-sm font-medium text-gray-700"
+                            >
+                                Descripcion corta
+                            </label>
+                            <div className="mt-1">
+                                <input
+                                    id="bio"
+                                    type="text"
+                                    autoComplete="bio"
+                                    {...register("bio", {
+                                        required:
+                                            "La Descripcion es obligatorio"
+                                    })}
+                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                />
+                                <InputErrorMessage
+                                    message={errors.bio?.message}
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label
+                                htmlFor="years_of_experience"
+                                className="block text-sm font-medium text-gray-700"
+                            >
+                                Años de experiencia
+                            </label>
+                            <div className="mt-1">
+                                <input
+                                    id="years_of_experience"
+                                    type="text"
+                                    autoComplete="years_of_experience"
+                                    {...register("years_of_experience", {
+                                        required:
+                                            "La Descripcion es obligatorio"
+                                    })}
+                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                />
+                                <InputErrorMessage
+                                    message={
+                                        errors.years_of_experience?.message
+                                    }
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label
+                                htmlFor="class_price"
+                                className="block text-sm font-medium text-gray-700"
+                            >
+                                Precio de la clase
+                            </label>
+                            <div className="mt-1">
+                                <input
+                                    id="class_price"
+                                    type="text"
+                                    autoComplete="class_price"
+                                    {...register("class_price", {
+                                        required: "El precio es obligatorio"
+                                    })}
+                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                />
+                                <InputErrorMessage
+                                    message={errors.class_price?.message}
+                                />
+                            </div>
+                        </div>
+
+                        <div>
                             <button
                                 type="submit"
                                 className=" disabled:bg-blue-300 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
@@ -226,4 +327,4 @@ const Student = () => {
     );
 };
 
-export default Student;
+export default Tutor;
