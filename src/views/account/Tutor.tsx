@@ -1,14 +1,15 @@
 // import { createStudent } from "@/api/studentAPI";
+import { createTutor } from "@/api/tutorAPi";
 import InputErrorMessage from "@/core/InputErrorMessage";
 import { PhoneInput } from "@/core/PhoneInput";
-// import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { TutorForm } from "@/types";
-// import { useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { Globe2 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-// import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const timezones = [
     { value: "Pacific/Midway", label: "(UTC-11:00) Midway Island" },
@@ -55,12 +56,14 @@ const initialValues: TutorForm = {
     country_of_birth: "",
     bio: "",
     years_of_experience: 0,
-    class_price: 0
+    class_price: "5"
 };
 
 const Tutor = () => {
-    // const navigate = useNavigate();
-    // const auth = useAuth();
+    const navigate = useNavigate();
+    const auth = useAuth();
+    // console.log(auth);
+    
     const [selectedCountry, setSelectedCountry] = useState({
         code: "+1",
         country: "US"
@@ -68,37 +71,37 @@ const Tutor = () => {
 
     const {
         register,
-        // handleSubmit,
+        handleSubmit,
         formState: { errors }
     } = useForm({ defaultValues: initialValues });
 
-    // const { mutate } = useMutation({
-    //     mutationFn: createStudent,
-    //     onSuccess(data) {
-    //         toast.success(data);
-    //         navigate(`/`);
-    //     },
-    //     onError(error) {
-    //         toast.error(error.message);
-    //     },
-    //     retry: false
-    // });
+    const { mutate, isPending } = useMutation({
+        mutationFn: createTutor,
+        onSuccess(data) {
+            toast.success(data);
+            navigate(`/`);
+        },
+        onError(error) {
+            toast.error(error.message);
+        },
+        retry: false
+    });
 
-    // const handleForm = (formData: StudentForm) => {
-    //     console.log(auth);
-    //     if (auth.data?.id) {
-    //         if (formData.phone_number) {
-    //             const data = {
-    //                 ...formData,
-    //                 phone_number: `${selectedCountry.code} ${formData.phone_number}`
-    //             };
-    //             mutate({ formData: data, user_id: auth.data?.id });
+    const handleForm = (formData: TutorForm) => {
+        console.log(auth, formData);
+        if (auth.data?.id) {
+            if (formData.phone_number) {
+                const data = {
+                    ...formData,
+                    phone_number: `${selectedCountry.code} ${formData.phone_number}`
+                };
+                mutate({ formData: data, user_id: auth.data?.id });
 
-    //             return;
-    //         }
-    //         mutate({ formData, user_id: auth.data?.id });
-    //     }
-    // };
+                return;
+            }
+            mutate({ formData, user_id: auth.data?.id });
+        }
+    };
 
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -128,7 +131,7 @@ const Tutor = () => {
                     <form
                         className="space-y-6"
                         noValidate
-                        // onSubmit={handleSubmit(handleForm)}
+                        onSubmit={handleSubmit(handleForm)}
                     >
                         <div>
                             <label
@@ -272,7 +275,7 @@ const Tutor = () => {
                             <div className="mt-1">
                                 <input
                                     id="years_of_experience"
-                                    type="text"
+                                    type="number"
                                     autoComplete="years_of_experience"
                                     {...register("years_of_experience", {
                                         required:
@@ -293,18 +296,25 @@ const Tutor = () => {
                                 htmlFor="class_price"
                                 className="block text-sm font-medium text-gray-700"
                             >
-                                Precio de la clase
+                                Precio de la clase ({auth.data ? auth.data.currency : null})
                             </label>
                             <div className="mt-1">
-                                <input
-                                    id="class_price"
-                                    type="text"
-                                    autoComplete="class_price"
-                                    {...register("class_price", {
-                                        required: "El precio es obligatorio"
-                                    })}
-                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                                />
+                                <div className="relative flex rounded-md shadow-sm">
+                                    <input
+                                        id="class_price"
+                                        type="number"
+                                        autoComplete="class_price"
+                                        {...register("class_price", {
+                                            required: "El precio es obligatorio"
+                                        })}
+                                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm pr-10"
+                                    />
+                                    {auth.data && (
+                                        <span className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 text-sm">
+                                            {auth.data.currency}
+                                        </span>
+                                    )}
+                                </div>
                                 <InputErrorMessage
                                     message={errors.class_price?.message}
                                 />
@@ -315,7 +325,7 @@ const Tutor = () => {
                             <button
                                 type="submit"
                                 className=" disabled:bg-blue-300 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                                // disabled={isPending}
+                                disabled={isPending}
                             >
                                 Crear
                             </button>

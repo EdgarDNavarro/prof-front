@@ -14,7 +14,7 @@ import { Fragment } from "react/jsx-runtime";
 type NavMenuProps = {
     data: User | undefined;
     logOut: () => void;
-    userBalance: number;
+    userBalance: string | undefined;
 };
 
 export const NavMenu = ({ data, logOut, userBalance }: NavMenuProps) => {
@@ -67,7 +67,7 @@ export const NavMenu = ({ data, logOut, userBalance }: NavMenuProps) => {
                                 <p className="text-center font-medium leading-none">
                                     {data.Student
                                         ? `${data.Student.first_name} ${data.Student.last_name} `
-                                        : ""}
+                                        : (data.Tutor ? `${data.Tutor.first_name} ${data.Tutor.last_name} ` : '')}
                                 </p>
                                 <p className="text-xs leading-none text-center text-gray-500">
                                     {data.email}
@@ -75,11 +75,11 @@ export const NavMenu = ({ data, logOut, userBalance }: NavMenuProps) => {
                             </div>
                         )}
 
-                        {data && (
+                        {data?.Tutor && (
                             <div className="flex items-center bg-green-100 rounded-full px-3 py-1 mt-4">
                                 <DollarSign className="h-4 w-4 text-green-600 mr-1" />
                                 <span className="font-medium text-green-800">
-                                    {userBalance.toFixed(2)}
+                                    {userBalance}
                                 </span>
                             </div>
                         )}

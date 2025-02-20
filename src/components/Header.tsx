@@ -10,7 +10,6 @@ const Header = () => {
     const { data } = useAuth();
 
     const navigate = useNavigate();
-    const userBalance = 1250.75;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const logOut = () => {
@@ -29,7 +28,7 @@ const Header = () => {
                 <span className="ml-2 text-2xl font-bold">LinguaLearn</span>
             </a>
 
-            <NavMenu userBalance={userBalance} data={data} logOut={logOut} />
+            <NavMenu userBalance={data?.Tutor?.balance} data={data} logOut={logOut} />
 
             <nav className="w-full sm:w-auto gap-4 sm:gap-6 items-center flex-col sm:flex-row mt-8 sm:mt-0 hidden sm:flex">
                 <a
@@ -59,11 +58,11 @@ const Header = () => {
 
                 <LanguageSelector />
 
-                {data && (
+                {data?.Tutor && (
                     <div className="flex items-center bg-green-100 rounded-full px-3 py-1">
                         <DollarSign className="h-4 w-4 text-green-600 mr-1" />
                         <span className="font-medium text-green-800">
-                            {userBalance.toFixed(2)}
+                            {data.Tutor?.balance}
                         </span>
                     </div>
                 )}
@@ -82,7 +81,7 @@ const Header = () => {
                                 name={
                                     data.Student
                                         ? `${data.Student.first_name} ${data.Student.last_name} `
-                                        : ""
+                                        : (data.Tutor ? `${data.Tutor.first_name} ${data.Tutor.last_name} ` : '')
                                 }
                                 className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                             />
@@ -99,7 +98,7 @@ const Header = () => {
                                         <p className=" font-medium leading-none">
                                             {data.Student
                                                 ? `${data.Student.first_name} ${data.Student.last_name} `
-                                                : ""}
+                                                : (data.Tutor ? `${data.Tutor.first_name} ${data.Tutor.last_name} ` : '')}
                                         </p>
                                         <p className="text-xs leading-none text-gray-500">
                                             {data.email}

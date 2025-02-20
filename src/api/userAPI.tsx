@@ -80,7 +80,8 @@ export const login = async (formData: UserLoginForm) => {
         const { data } = await api.post(url, formData);
 
         const response = loginResponseSchema.safeParse(data);
-
+        console.log({data, response});
+        
         if (response.success) {
             localStorage.setItem("PROF_AUTH_TOKEN", response.data.data.token);
             return "Success";
