@@ -2,7 +2,81 @@
 @tailwind components;
 @tailwind utilities;
 @layer base {
-  :root {
-    --radius: 0.5rem
-  }
+    :root {
+        --radius: 0.5rem;
+    }
+}
+
+/* Custom styles for React Big Calendar */
+.rbc-event {
+    padding: 0 !important;
+    background-color: rgb(79, 70, 229) !important;
+}
+
+.rbc-calendar {
+    @apply font-sans;
+}
+
+.rbc-header {
+    @apply py-2 font-medium text-gray-700 bg-gray-50 border-b border-gray-200;
+}
+
+.rbc-month-view {
+    @apply border-gray-200;
+}
+
+.rbc-day-bg {
+    @apply transition-colors hover:bg-gray-50;
+}
+
+.rbc-off-range-bg {
+    @apply bg-gray-50/50;
+}
+
+.rbc-today {
+    @apply bg-indigo-50/50;
+}
+
+.rbc-button-link {
+    @apply font-medium;
+}
+
+.rbc-show-more {
+    @apply text-indigo-600 font-medium;
+}
+
+.rbc-agenda-view table.rbc-agenda-table {
+    @apply border-gray-200;
+}
+
+.rbc-agenda-view table.rbc-agenda-table tbody > tr > td {
+    @apply border-gray-200;
+}
+
+.rbc-agenda-view table.rbc-agenda-table .rbc-agenda-time-cell {
+    @apply text-gray-700;
+}
+
+.rbc-time-view {
+    @apply border-gray-200;
+}
+
+.rbc-time-content {
+    @apply border-gray-200;
+}
+
+.rbc-time-header-content {
+    @apply border-gray-200;
+}
+
+.rbc-time-slot {
+    @apply text-gray-500;
+}
+
+.rbc-events-container {
+    @apply mr-0.5;
+}
+
+.rbc-current-time-indicator {
+    @apply bg-indigo-600;
 }

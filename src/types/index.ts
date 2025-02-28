@@ -39,6 +39,15 @@ export const studentSchema = z.object({
 export type Student = z.infer<typeof studentSchema>
 export type StudentForm = Pick<Student, 'first_name' | 'last_name' | 'phone_number' | 'timezone'>
 
+export const tutorDescriptionSchema = z.object({
+    id: uuidSchema,
+    type: z.enum(["introduce_yourself", "teaching_experience", "motivate_student", "catchy_title"]),
+    content: z.string(),
+    tutor_id: uuidSchema
+})
+export type TutorDescriptions = z.infer<typeof tutorDescriptionSchema>
+export type TutorDescriptionsForm = Pick<TutorDescriptions, 'type' | 'content' | 'tutor_id'>
+
 export const tutorSchema = z.object({
     id: uuidSchema,
     first_name: z.string(),
@@ -60,6 +69,7 @@ export const tutorSchema = z.object({
     total_lessons: z.number(),
     super_tutor_badge: z.boolean(),
     user_id: uuidSchema,
+    TutorDescriptions: z.array(tutorDescriptionSchema).optional()
 })
 
 export type Tutor = z.infer<typeof tutorSchema>

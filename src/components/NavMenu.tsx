@@ -64,10 +64,12 @@ export const NavMenu = ({ data, logOut, userBalance }: NavMenuProps) => {
 
                         {data && (
                             <div className="px-4 pt-2 pb-4 border-b w-full">
-                                <p className="text-center font-medium leading-none">
+                                <p className="text-center font-medium leading-none mb-2">
                                     {data.Student
                                         ? `${data.Student.first_name} ${data.Student.last_name} `
-                                        : (data.Tutor ? `${data.Tutor.first_name} ${data.Tutor.last_name} ` : '')}
+                                        : data.Tutor
+                                          ? `${data.Tutor.first_name} ${data.Tutor.last_name} `
+                                          : ""}
                                 </p>
                                 <p className="text-xs leading-none text-center text-gray-500">
                                     {data.email}
@@ -101,6 +103,13 @@ export const NavMenu = ({ data, logOut, userBalance }: NavMenuProps) => {
                                     >
                                         Mis cursos
                                     </a>
+                                    <Link
+                                        to="/calendar"
+                                        className="block text-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        role="menuitem"
+                                    >
+                                        Calendario
+                                    </Link>
                                     <a
                                         href="#"
                                         className="block text-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"

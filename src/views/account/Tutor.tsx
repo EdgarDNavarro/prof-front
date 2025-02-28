@@ -1,5 +1,6 @@
 // import { createStudent } from "@/api/studentAPI";
 import { createTutor } from "@/api/tutorAPi";
+import { timezones } from "@/constDate";
 import InputErrorMessage from "@/core/InputErrorMessage";
 import { PhoneInput } from "@/core/PhoneInput";
 import { useAuth } from "@/hooks/useAuth";
@@ -10,43 +11,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
-const timezones = [
-    { value: "Pacific/Midway", label: "(UTC-11:00) Midway Island" },
-    { value: "Pacific/Pago_Pago", label: "(UTC-11:00) Pago Pago" },
-    { value: "Pacific/Honolulu", label: "(UTC-10:00) Hawaii" },
-    { value: "America/Anchorage", label: "(UTC-09:00) Alaska" },
-    {
-        value: "America/Los_Angeles",
-        label: "(UTC-08:00) Pacific Time (US & Canada)"
-    },
-    {
-        value: "America/Denver",
-        label: "(UTC-07:00) Mountain Time (US & Canada)"
-    },
-    {
-        value: "America/Chicago",
-        label: "(UTC-06:00) Central Time (US & Canada)"
-    },
-    {
-        value: "America/New_York",
-        label: "(UTC-05:00) Eastern Time (US & Canada)"
-    },
-    { value: "America/Caracas", label: "(UTC-04:00) Caracas" },
-    { value: "America/Santiago", label: "(UTC-03:00) Santiago" },
-    { value: "Atlantic/South_Georgia", label: "(UTC-02:00) South Georgia" },
-    { value: "Atlantic/Azores", label: "(UTC-01:00) Azores" },
-    { value: "Europe/London", label: "(UTC+00:00) London" },
-    { value: "Europe/Paris", label: "(UTC+01:00) Paris" },
-    { value: "Europe/Berlin", label: "(UTC+01:00) Berlin" },
-    { value: "Europe/Istanbul", label: "(UTC+03:00) Istanbul" },
-    { value: "Asia/Dubai", label: "(UTC+04:00) Dubai" },
-    { value: "Asia/Kolkata", label: "(UTC+05:30) India Standard Time" },
-    { value: "Asia/Shanghai", label: "(UTC+08:00) China Standard Time" },
-    { value: "Asia/Tokyo", label: "(UTC+09:00) Japan Standard Time" },
-    { value: "Australia/Sydney", label: "(UTC+10:00) Sydney" },
-    { value: "Pacific/Auckland", label: "(UTC+12:00) Auckland" }
-];
 
 const initialValues: TutorForm = {
     first_name: "",
@@ -63,7 +27,7 @@ const Tutor = () => {
     const navigate = useNavigate();
     const auth = useAuth();
     // console.log(auth);
-    
+
     const [selectedCountry, setSelectedCountry] = useState({
         code: "+1",
         country: "US"
@@ -296,7 +260,8 @@ const Tutor = () => {
                                 htmlFor="class_price"
                                 className="block text-sm font-medium text-gray-700"
                             >
-                                Precio de la clase ({auth.data ? auth.data.currency : null})
+                                Precio de la clase (
+                                {auth.data ? auth.data.currency : null})
                             </label>
                             <div className="mt-1">
                                 <div className="relative flex rounded-md shadow-sm">

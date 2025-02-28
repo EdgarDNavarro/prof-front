@@ -8,6 +8,8 @@ import ConfirmAccount from "./views/ConfirmAccount";
 import CreateAccount from "./views/CreateAccount";
 import Student from "./views/account/Student";
 import Tutor from "./views/account/Tutor";
+import UpdateProfile from "./views/tutor/UpdateProfile";
+import CalendarEvents from "./views/calendar/CalendarEvents";
 
 const Router = () => {
     return (
@@ -15,6 +17,16 @@ const Router = () => {
             <Routes>
                 <Route element={<HomeLayout />}>
                     <Route path="/" element={<HomeView />} index />
+                    <Route
+                        path="/calendar"
+                        element={<CalendarEvents />}
+                        index
+                    />
+                    <Route
+                        path="/tutor/profile"
+                        element={<UpdateProfile />}
+                        index
+                    />
                 </Route>
                 <Route path="/login" element={<LoginView />} />
                 <Route path="/register" element={<RegisterView />} />

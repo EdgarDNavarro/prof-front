@@ -28,7 +28,11 @@ const Header = () => {
                 <span className="ml-2 text-2xl font-bold">LinguaLearn</span>
             </a>
 
-            <NavMenu userBalance={data?.Tutor?.balance} data={data} logOut={logOut} />
+            <NavMenu
+                userBalance={data?.Tutor?.balance}
+                data={data}
+                logOut={logOut}
+            />
 
             <nav className="w-full sm:w-auto gap-4 sm:gap-6 items-center flex-col sm:flex-row mt-8 sm:mt-0 hidden sm:flex">
                 <a
@@ -81,13 +85,15 @@ const Header = () => {
                                 name={
                                     data.Student
                                         ? `${data.Student.first_name} ${data.Student.last_name} `
-                                        : (data.Tutor ? `${data.Tutor.first_name} ${data.Tutor.last_name} ` : '')
+                                        : data.Tutor
+                                          ? `${data.Tutor.first_name} ${data.Tutor.last_name} `
+                                          : ""
                                 }
                                 className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                             />
                         </button>
                         {isMenuOpen && (
-                            <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                            <div className="absolute z-10 right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                                 <div
                                     className="py-1"
                                     role="menu"
@@ -98,19 +104,21 @@ const Header = () => {
                                         <p className=" font-medium leading-none">
                                             {data.Student
                                                 ? `${data.Student.first_name} ${data.Student.last_name} `
-                                                : (data.Tutor ? `${data.Tutor.first_name} ${data.Tutor.last_name} ` : '')}
+                                                : data.Tutor
+                                                  ? `${data.Tutor.first_name} ${data.Tutor.last_name} `
+                                                  : ""}
                                         </p>
                                         <p className="text-xs leading-none text-gray-500">
                                             {data.email}
                                         </p>
                                     </div>
-                                    <a
-                                        href="#"
+                                    <Link
+                                        to={`/tutor/profile`}
                                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                         role="menuitem"
                                     >
                                         Perfil
-                                    </a>
+                                    </Link>
                                     <a
                                         href="#"
                                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -118,6 +126,13 @@ const Header = () => {
                                     >
                                         Mis cursos
                                     </a>
+                                    <Link
+                                        to="/calendar"
+                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        role="menuitem"
+                                    >
+                                        Calendario
+                                    </Link>
                                     <a
                                         href="#"
                                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
