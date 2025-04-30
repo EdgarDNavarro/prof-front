@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Video, Upload, Dessert } from "lucide-react";
+import { Video, Upload } from "lucide-react";
 import { AgeGroups, type TutorProfile } from "../../types/tutor";
 import { useQuery } from "@tanstack/react-query";
 import { getTutorById } from "@/api/tutorAPi";
